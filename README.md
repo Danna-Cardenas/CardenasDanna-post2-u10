@@ -49,4 +49,4 @@ Workflow: `.github/workflows/api-tests.yml`
 ![Postman Runner](img/captura2.png)
 
 ### Evidencia 3 - GitHub Actions check verde
-![GitHub Actions](img/)
+![GitHub Actions](img/captura3.png)
