@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nueva Tarea</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    label { display: block; margin: 12px 0 4px; }
+    input, textarea { width: 320px; max-width: 100%; }
+    #acciones { margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Nueva Tarea</h1>
+    <form id="form-tarea">
+      <label for="titulo">Titulo</label>
+      <input id="titulo" name="titulo" type="text" required />
+
+      <label for="descripcion">Descripcion</label>
+      <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+
+      <div id="acciones">
+        <button id="btn-guardar" type="submit">Guardar</button>
+        <a href="/tareas">Cancelar</a>
+      </div>
+    </form>
+    <p id="mensaje"></p>
+  </main>
+
+  <script>
+    const form = document.getElementById("form-tarea");
+    const mensaje = document.getElementById("mensaje");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      mensaje.textContent = "";
+
+      const payload = {
+        titulo: document.getElementById("titulo").value,
+        descripcion: document.getElementById("descripcion").value
+      };
+
+      const resp = await fetch("/api/tareas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (resp.ok) {
+        window.location.href = "/tareas";
+        return;
+      }
+
+      mensaje.textContent = "No se pudo crear la tarea";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tareas</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    #btn-nueva { margin: 8px 0 16px; }
+    .tarea-item { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Tareas</h1>
+    <button id="btn-nueva" type="button">Nueva tarea</button>
+    <ul id="lista-tareas"></ul>
+  </main>
+
+  <script>
+    const btnNueva = document.getElementById("btn-nueva");
+    btnNueva.addEventListener("click", () => {
+      window.location.href = "/tareas/nueva";
+    });
+
+    async function cargarTareas() {
+      const resp = await fetch("/api/tareas");
+      if (!resp.ok) {
+        return;
+      }
+      const data = await resp.json();
+      const list = document.getElementById("lista-tareas");
+      list.innerHTML = "";
+      data.forEach((tarea) => {
+        const li = document.createElement("li");
+        li.className = "tarea-item";
+        li.textContent = tarea.titulo + (tarea.completada ? " (completada)" : "");
+        list.appendChild(li);
+      });
+    }
+
+    cargarTareas();
+  </script>
+</body>
+</html>
